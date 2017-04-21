@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View, Text, Button, Alert, TouchableOpacity } from 'react-native';
 import {
   RTCPeerConnection,
   RTCIceCandidate,
@@ -9,6 +9,10 @@ import {
   MediaStreamTrack,
   getUserMedia
 } from 'react-native-webrtc';
+
+const onButtonPress = () => {
+  Alert.alert('Button has been pressed!');
+};
 
 class Main extends Component {
 
@@ -66,18 +70,95 @@ class Main extends Component {
 
   render(){
     return(
-      <RTCView streamURL={this.state.videoURL} style={styles.container}/>
+      <View style={styles.container}>
+        <RTCView streamURL={this.state.videoURL} style={styles.video}/>
+
+        <TouchableOpacity style={styles.answer}>
+          <Text style={styles.text}>
+            Answer
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.decline}>
+          <Text style={styles.text}>
+            Decline
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.end}>
+          <Text style={styles.text}>
+            End
+          </Text>
+        </TouchableOpacity>
+
+
+      </View>
 
     );
   }
 }
 const styles = {
+  end:{
+    position: 'absolute',
+    left: 275,
+    top: 1000,
+    borderColor: 'white',
+    borderWidth: 3,
+    backgroundColor: 'rgb(255,25,50)',
+    height:128,
+    width: 250,
+    borderRadius: 64,
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center'
+    // display:'none'
+  },
+  decline: {
+    position: 'absolute',
+    left: 120,
+    top: 1000,
+    borderColor: 'white',
+    borderWidth: 3,
+    backgroundColor: 'rgb(255,25,50)',
+    height:128,
+    width: 128,
+    borderRadius: 64,
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center'
+
+  },
   container : {
     flex: 1,
     backgroundColor: "rgb(100,100,255)",
     borderWidth : 1,
     borderColor : "rgb(0,0,0)"
+  },
+  video : {
+    flex: 1,
+    borderWidth: 1
+  },
+  answer: {
+    //flex: 1,
+    position: 'absolute',
+    left: 550,
+    top: 1000,
+    borderColor: 'white',
+    borderWidth: 3,
+    backgroundColor: 'rgb(0,165,0)',
+    height:128,
+    width: 128,
+    borderRadius: 64,
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center'
+    // display: "none"
+  },
+  text: {
+    fontSize: 35,
+    color: 'white'
   }
+
 }
 
 
