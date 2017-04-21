@@ -18,7 +18,9 @@ class Main extends Component {
 
   state = {
     videoURL : null,
-    isFront : true
+    isFront : true,
+    endHidden: false,
+
   }
 
   componentDidMount(){
@@ -39,7 +41,7 @@ class Main extends Component {
         video: {
           mandatory: {
             minWidth: 500, // Provide your own width, height and frame rate here
-            minHeight: 300,
+            minHeight: 0,
             minFrameRate: 30
           },
           facingMode: (isFront ? 'user' : 'environment'),
@@ -68,12 +70,25 @@ class Main extends Component {
     };
   }
 
+
+  hide(){
+   this.setState({endHidden: false})
+   console.log('cp-test');
+  }
+
+  show(){
+    this.setState({endHidden: true})
+  }
+//onPress = {() => {this.sendMe()}}
   render(){
+    console.log(this.state.endHidden);
+
     return(
       <View style={styles.container}>
+        <RTCView streamURL={this.state.videoURL} style={styles.video2}/>
         <RTCView streamURL={this.state.videoURL} style={styles.video}/>
 
-        <TouchableOpacity style={styles.answer}>
+        <TouchableOpacity style={styles.answer} onPress = { () => {this.show()} }>
           <Text style={styles.text}>
             Answer
           </Text>
@@ -85,7 +100,7 @@ class Main extends Component {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.end}>
+        <TouchableOpacity style={this.state.endHidden ? styles.end : styles.endHidden} >
           <Text style={styles.text}>
             End
           </Text>
@@ -98,6 +113,20 @@ class Main extends Component {
   }
 }
 const styles = {
+  endHidden: {
+    position: 'absolute',
+    left: 800,
+    top: 1000,
+    borderColor: 'white',
+    borderWidth: 3,
+    backgroundColor: 'rgb(255,25,50)',
+    height:128,
+    width: 250,
+    borderRadius: 64,
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center'
+    },
   end:{
     position: 'absolute',
     left: 275,
@@ -111,6 +140,7 @@ const styles = {
     flex:1,
     justifyContent: 'center',
     alignItems: 'center'
+    // visibility:'hidden'
     // display:'none'
   },
   decline: {
@@ -130,14 +160,25 @@ const styles = {
   },
   container : {
     flex: 1,
-    backgroundColor: "rgb(100,100,255)",
+    backgroundColor: "rgb(30,30,30)",
     borderWidth : 1,
     borderColor : "rgb(0,0,0)"
+
   },
   video : {
     flex: 1,
     borderWidth: 1
   },
+  video2 : {
+      position:'absolute',
+      borderWidth: 1,
+      alignSelf: "center",
+      height:300,
+      width: 300,
+      left: 550,
+      top: 70
+      // zIndex: 1
+    },
   answer: {
     //flex: 1,
     position: 'absolute',
