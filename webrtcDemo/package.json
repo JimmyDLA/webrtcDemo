@@ -7,12 +7,17 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"express": "^4.15.2",
 		"react": "15.4.2",
-		"react-native": "0.42.3"
+		"react-native": "0.42.3",
+		"react-navigation": "^1.0.0-beta.7",
+		"socket.io": "^1.7.3"
 	},
 	"devDependencies": {
 		"babel-jest": "19.0.0",
 		"babel-preset-react-native": "1.9.1",
+		"http": "0.0.0",
+		"nodemon": "^1.11.0",
 		"jest": "19.0.2",
 		"react-test-renderer": "15.4.2"
 	},

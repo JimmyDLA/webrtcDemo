@@ -1,5 +1,19 @@
 import React, { Component } from 'react';
-import { Platform, View, Text, Button, Alert, TouchableOpacity } from 'react-native';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  Button,
+  View,
+  Alert,
+  Switch,
+  Platform,
+  TextInput,
+  TouchableOpacity
+} from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import "./UserAgent";
+import io from "socket.io-client/dist/socket.io";
 import {
   RTCPeerConnection,
   RTCIceCandidate,
@@ -9,6 +23,12 @@ import {
   MediaStreamTrack,
   getUserMedia
 } from 'react-native-webrtc';
+import { styles } from './styles/mainStyle';
+import ReceiverScreen from './screens/ReceiverScreen';
+import ClientScreen from './screens/ClientScreen';
+
+
+
 
 const onButtonPress = () => {
   Alert.alert('Button has been pressed!');
@@ -21,7 +41,11 @@ class Main extends Component {
     isFront : true,
     endHidden: true,
     declineHidden: false,
-    answerHidden: false
+    answerHidden: false,
+    isSwitchOn: false,
+    text: "enter color",
+    incomingText: null,
+    backColor: "rgb(245,245,245)"
 
   }
 
@@ -85,6 +109,7 @@ class Main extends Component {
     this.startCall();
   }
   render(){
+    const { navigate } = this.props.navigation;
     console.log(this.state.endHidden);
 
     return(
@@ -98,7 +123,9 @@ class Main extends Component {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={this.state.declineHidden ? styles.declineHidden : styles.decline}>
+        <TouchableOpacity
+          onPress = {() => navigate('ClientScreen', { isSwitchOn: this.state.isSwitchOn })}
+          style={this.state.declineHidden ? styles.declineHidden : styles.decline}>
           <Text style={styles.text}>
             Decline
           </Text>
@@ -239,6 +266,36 @@ const styles = {
   }
 
 }
+
+const SuperMarketApp = StackNavigator({
+    Home: {
+        screen: HomeScreen,
+        navigationOptions: {
+            title: 'Welcome',
+            header: {
+                visible: false
+            }
+        }
+    },
+    ClientScreen: {
+        screen: ClientScreen,
+        navigationOptions: {
+            title: 'Client Screen',
+            header: {
+                visible: false
+            }
+        }
+    },
+    ReceiverScreen: {
+        screen: ReceiverScreen,
+        navigationOptions: {
+            title: 'Receiver Screen',
+            header: {
+                visible: false
+            }
+        }
+    }
+});
 
 
 export default Main;
