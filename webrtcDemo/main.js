@@ -19,7 +19,9 @@ class Main extends Component {
   state = {
     videoURL : null,
     isFront : true,
-    endHidden: false,
+    endHidden: true,
+    declineHidden: false,
+    answerHidden: false
 
   }
 
@@ -71,15 +73,16 @@ class Main extends Component {
   }
 
 
-  hide(){
-   this.setState({endHidden: false})
-   console.log('cp-test');
-  }
+  endCall(){
+    this.setState({endHidden: true});
+    this.setState({declineHidden: false});
+    this.setState({answerHidden: false});  }
 
-  show(){
-    this.setState({endHidden: true})
+  answerPhone(){
+    this.setState({endHidden: false});
+    this.setState({declineHidden: true});
+    this.setState({answerHidden: true});
   }
-//onPress = {() => {this.sendMe()}}
   render(){
     console.log(this.state.endHidden);
 
@@ -88,19 +91,19 @@ class Main extends Component {
         <RTCView streamURL={this.state.videoURL} style={styles.video2}/>
         <RTCView streamURL={this.state.videoURL} style={styles.video}/>
 
-        <TouchableOpacity style={styles.answer} onPress = { () => {this.show()} }>
+        <TouchableOpacity style={this.state.answerHidden ? styles.answerHidden : styles.answer} onPress = { () => {this.answerPhone()} }>
           <Text style={styles.text}>
             Answer
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.decline}>
+        <TouchableOpacity style={this.state.declineHidden ? styles.declineHidden : styles.decline}>
           <Text style={styles.text}>
             Decline
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={this.state.endHidden ? styles.end : styles.endHidden} >
+        <TouchableOpacity style={this.state.endHidden ? styles.endHidden : styles.end} onPress={()=>{this.endCall()}}>
           <Text style={styles.text}>
             End
           </Text>
@@ -158,6 +161,22 @@ const styles = {
     alignItems: 'center'
 
   },
+  declineHidden: {
+    position: 'absolute',
+    left: 800,
+    top: 1000,
+    borderColor: 'white',
+    borderWidth: 3,
+    backgroundColor: 'rgb(255,25,50)',
+    height:128,
+    width: 128,
+    borderRadius: 64,
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center'
+
+  },
+
   container : {
     flex: 1,
     backgroundColor: "rgb(30,30,30)",
@@ -183,6 +202,22 @@ const styles = {
     //flex: 1,
     position: 'absolute',
     left: 550,
+    top: 1000,
+    borderColor: 'white',
+    borderWidth: 3,
+    backgroundColor: 'rgb(0,165,0)',
+    height:128,
+    width: 128,
+    borderRadius: 64,
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center'
+    // display: "none"
+  },
+  answerHidden: {
+    //flex: 1,
+    position: 'absolute',
+    left: 800,
     top: 1000,
     borderColor: 'white',
     borderWidth: 3,
