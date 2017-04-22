@@ -25,7 +25,7 @@ class Main extends Component {
 
   }
 
-  componentDidMount(){
+  startCall(){
     const configuration = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
     const pc = new RTCPeerConnection(configuration);
     const { isFront } = this.state;
@@ -53,7 +53,7 @@ class Main extends Component {
         console.log('Streaming ok = ', stream);
         this.setState({
           videoURL : stream.toURL()
-        });
+        }, );
         pc.addStream(stream);
       }, error => {
           console.log("Oooops we got an error!", error.message);
@@ -82,6 +82,7 @@ class Main extends Component {
     this.setState({endHidden: false});
     this.setState({declineHidden: true});
     this.setState({answerHidden: true});
+    this.startCall();
   }
   render(){
     console.log(this.state.endHidden);
@@ -194,8 +195,10 @@ const styles = {
       alignSelf: "center",
       height:300,
       width: 300,
-      left: 550,
-      top: 70
+      left: 540,
+      top: 71,
+      borderColor: 'green',
+      borderWidth: 5
       // zIndex: 1
     },
   answer: {
